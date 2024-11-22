@@ -15,7 +15,7 @@ pipeline {
 			steps {
 				echo 'Checkout SCM!'
 				// Jenkins 프로젝트에 설정된 Repository로 부터 현재 브랜치의 소스코드를 가져오는데 사용한다.
-				checkout scm
+				git branch: 'main', url: 'https://github.com/1024wlsdud/WebGoat.git'
 			}
 		}
 
