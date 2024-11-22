@@ -15,7 +15,7 @@ pipeline {
 			steps {
 				echo 'Checkout SCM!'
 				// Jenkins 프로젝트에 설정된 Repository로 부터 현재 브랜치의 소스코드를 가져오는데 사용한다.
-				git branch: 'main', url: 'https://github.com/1024wlsdud/WebGoat.git'
+				checkout scm
 			}
 		}
 
@@ -38,12 +38,10 @@ pipeline {
 		stage('SAST') {
 			steps{
 				script{
-                	sh """
-                ./mvnw sonar:sonar \
-                -Dsonar.projectKey=${gitRepoName} \
-                -Dsonar.host.url=http://http://172.17.0.3:9000 \
-                -Dsonar.login=sqa_3b01c06806a0021ef8726e58ab1b3656027a57ed
-                 """
+                	// SonarQube 작업을 호출한다.
+					build job: 'SAST-SonarQube', parameters:[
+						string(name: 'GIT_REPONAME', value: gitRepoName)
+					], wait: false
 				}
 			}
 		}
